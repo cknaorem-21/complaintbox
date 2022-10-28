@@ -1,0 +1,65 @@
+{%extends 'userPanel/dash.html'%}
+   
+   
+
+      {%block mainblock%} 
+    
+      <div class="row">
+    <form action="/utils/request.php"  method="POST">
+    	<fieldset>
+    <legend> <h1>Register New Complaint</h1></legend>
+      <div class="row"> 
+        <div class="input-field col s12">
+           <i class="material-icons prefix">class</i>
+          <input id="subject" name="subject"  type="text" class="validate">
+          <label for="subject">Subject</label>
+        </div>
+      </div>
+       <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">date_range</i>
+        	<input id="dateA" name="cdate" type="text" class="datepicker">
+         
+          <label for="dateA">Date</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">watch</i>
+            <input id="timeB" name="ctime" type="text"  class="timepicker">
+          <label for="timeB">Time</label>
+        </div>
+      </div>
+      
+
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea name="cDescription" id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Write your Complaint</label>
+        </div>
+     
+  </div>
+  <button class="btn waves-effect waves-light" type="submit" name="addComplaint">Submit
+    <i class="material-icons right">send</i>
+  </button>
+      
+  </fieldset>
+    </form>
+  </div>
+  <script type="text/javascript">
+
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.datepicker');
+    var instances = M.Datepicker.init(elems, {autoClose:true});
+  });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.timepicker');
+    var instances = M.Timepicker.init(elems, {autoClose:true});
+  });
+
+      
+  </script>
+          {%endblock%}

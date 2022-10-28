@@ -1,0 +1,63 @@
+
+<html>
+  <head>
+      {%block stylesheets%} 
+    
+    <title>{{title}}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/materialize.css" />
+    <script src="/js/materialize.js"></script>
+     <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <style>
+       .body{
+
+       }
+      .name, .email{
+        color: black !important;
+        font-size: 20px !important;
+      }
+      
+    </style>
+  </head>
+        {%endblock%}
+  <body >
+    <!-- Navbar goes here -->
+
+    <!-- Page Layout here -->
+    <div class="row">
+    {%block sideBar%}  
+      <div class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
+        <ul id="slide-out" class="sidenav sidenav-fixed">
+      <li><div class="user-view">
+      <div class="background">
+        <img src="/images/bg.jpg">
+      </div>
+      <a href="#user"><img class="circle" src="/images/download.png"></a>
+      <a href="#name" ><span class="white-text name" >User Name</span></a>
+      <a href="#email"><span class="white-text email" >jdandturk@gmail.com</span></a>
+    </div></li>
+       <li  id="dashMain"><a href="/userPanel">Dashboard</a></li>
+      <li  id="dash"><a href="/userPanel/newComplaint">New Complaint</a></li>
+       <li id="generate"><a href="/userPanel/viewComplaint">View Complaint</a></li>
+        <li  id="dashMain"><a href="/userPanel/profile">Profile</a></li>
+       <li id="updateLogo"><a href="logout.php">Logout</a></li>
+     
+    </ul>
+
+      </div>
+{%endblock%}
+      <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
+          {%block mainblock%} 
+    
+
+          {%endblock%}
+
+      </div>
+
+    </div>
+
+
+
+  </body>
+
+</html>
