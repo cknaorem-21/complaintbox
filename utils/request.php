@@ -7,17 +7,15 @@ if (isset($_POST['addComplaint'])) {
 	$ctime =$_POST['ctime'];
 	$uid= $_SESSION['userID'];
 	if (!empty($_POST['cDescription'])) {
-
-		$cDescription = "description/" .rand(). ".html";
+		$cDescription = "description/" .rand().$ctime.$uid.".html";
 		$description = $_POST['cDescription'];
-
 		$descFile = fopen("../" . $cDescription, "w");
 		fwrite($descFile, $description);
 		fclose($descFile);
 
 	}
 	$event = new Event;
-
+	echo $ctime;
 	 if ($event->addComplaint($uid, $cdate, $ctime, $subject, $cDescription)) {
 
 		$event = null;

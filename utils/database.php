@@ -7,7 +7,7 @@ class database {
 	function mk_conn() {
 
 		$server ="localhost";
-		$user = "monish";
+		$user = "root";
 		$pass = "";
 		$dbName ="complaintbox";
 

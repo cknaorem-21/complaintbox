@@ -1,27 +1,13 @@
 <?php
+require_once 'utils/event.php';
 ini_set('display_errors', 1);
 error_reporting(~0);
 session_start();
 $_SESSION['userID'] =1;
-$_SESSION['userEmail'] = "temp@gmail.com";
-if (!isset($_SESSION['id'])) {
-	$_SESSION['id'] = 1;
-}
-
-
-if ($_SESSION['id'] == 1) {
-	//updateCount();
-	$_SESSION['id'] = 2;
-} else {
-	$script = '';
-}
+$_SESSION['userName'] = "Monish";
+$_SESSION['userEmail'] = "monish@gmail.com";
 $pageFound=false;
 require_once 'vendor/autoload.php';
-//require_once 'utils/Form.php';
-//require_once 'utils/Registeration.php';
-//require_once 'utils/utilFunc.php';
-
-
 
 $loader = new Twig_Loader_Filesystem('resources');
 $twig = new Twig_Environment($loader);
@@ -42,16 +28,27 @@ if (empty($uri[1])) {
 		echo $twig->render('web/home.html', array('title' => 'Home Page'));
 
 }else if ($uri[1]=='userPanel') {
-
+	$userName= $_SESSION['userName'];
+	$userEmail= $_SESSION['userEmail'];
 	if (empty($uri[2])) {
 	$pageFound=true;
-		echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard'));
+		
+		echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard','uName'=>$userName,'uEmail'=>$userEmail));
 	}else if ($uri[2] == 'newComplaint') {
 		$pageFound=true;
-		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint'));
+		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint','uName'=>$userName,'uEmail'=>$userEmail));
 	}else if ($uri[2] == 'viewComplaint') {
 		$pageFound=true;
-		echo $twig->render('userPanel/viewComplaint.html', array('title' => 'New Complaint'));
+		$Events = new Event;
+		$Complaints = $Events->getComplaints();
+		echo $twig->render('userPanel/viewComplaint.html', array('title' => 'View Complaint','complaints'=>$Complaints,'uName'=>$userName,'uEmail'=>$userEmail));
+	}
+	else if ($uri[2] == 'complaintDetails') {
+		$pageFound=true;
+		$id=$_GET['id'];
+		$Events = new Event;
+		$Complaints = $Events->getComplaintsByID($id);
+		echo $twig->render('userPanel/complaintDetails.html', array('title' => 'Complaint','complaints'=>$Complaints,'description' => file_get_contents($Events->getDescription($id)),'uName'=>$userName,'uEmail'=>$userEmail));
 	}
 
 
