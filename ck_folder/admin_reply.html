@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply</title>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+  <div class="row">
+    <nav class="cyan darken-2">
+        <div class="nav-wrapper">
+          <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right">
+              <li><a href="/admin_dashboard_active.html"><i class="material-icons right">home</i>Home</a></li>
+            </ul>
+          </div> 
+    </nav>
+
+<div class="col l3">
+  <ul id="slide-out" class="sidenav sidenav-fixed">
+    <li>
+      <div class="user-view">
+        <div class="background">
+          <img src="images/teal_green.jpg">
+        </div>
+        <a href="#user"><img class="circle" src="images/user.png"></a>
+        <a href="#name"><span class="white-text name">John Doe</span></a>
+        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      </div>
+    </li>
+      <div>
+        <li><a href="/admin_dashboard_active.html">Active</a></li>
+        <li><a href="/admin_dashboard_resolved.html">Resolved</a></li>
+        <li><a href="/admin_dashboard_discarded.html">Discarded</a></li>
+        <li><a href="#!">Logout</a></li>
+      </div>
+  </ul>
+</div>
+
+<div class="col s12 m12 l9">
+<main>
+  <section>    
+    <div class="divider"></div>
+    <div class="section">
+      <fieldset>
+        <legend><h5>User Message:</h5></legend>
+          <p>Date: &nbsp <span>30/10/2022</span></p>
+          <p>Subject: &nbsp <span>Subject of the complaint</span></p>
+          <span>Complaint:</span>
+          <span>Complaint description will appear here</span>
+      </fieldset>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <div class="section">  
+      <fieldset>
+        <legend><h5>Admin Reply:</h5></legend>
+        <br>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">toc</i>
+            <select multiple>
+              <option value="" disabled selected>Choose your option</option>
+              <option value="1">Department 1</option>
+              <option value="2">Department 2</option>
+              <option value="3">Team 3</option>
+            </select>
+            <label>Concerned Department/Team</label>
+        </div>
+
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <i class="material-icons prefix">create</i>
+                <textarea id="textarea1" class="materialize-textarea"></textarea>
+                <label for="textarea1">Admin Message</label>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <form action="#">
+          <div class="file-field input-field">
+            <div class="btn blue">
+              <span>File</span>
+              <input type="file" multiple>
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload one or more files">
+            </div>
+          </div>
+        </form>
+          
+        <a class="waves-effect waves-light btn"><i class="material-icons right">send</i>Send</a>
+      </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+
+<script src="js/script.js"></script>
+
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="js/materialize.min.js"></script>
+</body>
+</html>
