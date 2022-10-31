@@ -2,3 +2,22 @@ header, main, footer {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  fieldset {
+    border : 3px solid rgb(30, 97, 205, 0.5);
+    border-radius: 15px;
+  }
+
+  .btn, .btn-small, .btn-large {
+    border-radius: 25px;
+  }
+  
+  .buttons {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  /* .background {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  } */

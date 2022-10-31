@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// selectors
+// form_selectors
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
