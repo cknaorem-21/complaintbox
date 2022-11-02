@@ -6,6 +6,12 @@ How to run this project in local server(Xampp)
 a) Apache
 b) MySQL
 import database file in phpMyAdmin, database file present in root folder
+
+ change this file (C:\Windows\System32\drivers\etc\hosts)
+# localhost name resolution is handled within DNS itself.
+	127.0.0.1       complaintbox.co.in
+	127.0.0.1       localhost
+
 # file content|| file Name: httpd-vhosts.conf 
 
 
@@ -21,10 +27,7 @@ import database file in phpMyAdmin, database file present in root folder
 </VirtualHost>
 
 # file content end 
-also change this file (C:\Windows\System32\drivers\etc\hosts)
-# localhost name resolution is handled within DNS itself.
-	127.0.0.1       complaintbox.co.in
-	127.0.0.1       localhost
+
 5. just paste this code on path C:\xampp\apache\conf\extra\ httpd-vhosts.conf 
 6. if your xampp already started stop it, and start again
 7.Now we are ready to run our portal just search in browser http://complaintbox.co.in
