@@ -1,0 +1,52 @@
+{%extends 'userPanel/dash.html'%}
+   
+   
+
+      {%block mainblock%} 
+    <div class="col s12 m12 l9">
+<main>
+  <section>
+    <div   class="section">
+      <fieldset>
+        <legend><h5>Dashboard</h5></legend>
+        <br>
+  
+
+    <div class="col s12 m6">
+      <div class="card-panel teal">
+        <span class="white-text"><h3>Total Complaint</h3>
+        </span>
+      </div>
+    </div>
+    <div class="col s12 m6">
+      <div class="card-panel teal">
+        <span class="white-text"><h3>Active Complaint</h3>
+        </span>
+      </div>
+  </div>
+  </fieldset>
+   <div class="divider" style="height: 30px;margin-top: 10px;margin-bottom: 20px;"></div>
+   <fieldset>
+        <legend><h5>Your Dratils</h5></legend>
+        <br>
+
+ <ul class="collection">
+    <li class="collection-item avatar">
+      <img src="/images/download.png" alt="" class="circle">
+      <span class="title">NAME : {{uName}} </span>
+      <p>EMAIL : {{uEmail}} 
+      </p>
+      <br>
+      <a href="#!" class="secondary-content">Change Passowrd</a>
+    </li>
+   
+  </ul>
+   
+      </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+
+
+          {%endblock%}

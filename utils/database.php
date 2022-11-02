@@ -7,7 +7,7 @@ class database {
 	function mk_conn() {
 
 		$server ="localhost";
-		$user = "monish";
+		$user = "root";
 		$pass = "";
 		$dbName ="complaintbox";
 
@@ -20,7 +20,6 @@ class database {
 	}
 
 	function query($sql) {
-
 		$result = $this->conn->query($sql);
 		if ($result) {
 			return $result;

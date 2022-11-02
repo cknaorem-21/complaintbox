@@ -1,27 +1,12 @@
 <?php
+require_once 'utils/functions.php';
+require_once 'utils/event.php';
+require_once 'vendor/autoload.php';
 ini_set('display_errors', 1);
 error_reporting(~0);
 session_start();
-$_SESSION['userID'] =1;
-$_SESSION['userEmail'] = "temp@gmail.com";
-if (!isset($_SESSION['id'])) {
-	$_SESSION['id'] = 1;
-}
-
-
-if ($_SESSION['id'] == 1) {
-	//updateCount();
-	$_SESSION['id'] = 2;
-} else {
-	$script = '';
-}
 $pageFound=false;
-require_once 'vendor/autoload.php';
-//require_once 'utils/Form.php';
-//require_once 'utils/Registeration.php';
-//require_once 'utils/utilFunc.php';
-
-
+$errorMsg="";
 
 $loader = new Twig_Loader_Filesystem('resources');
 $twig = new Twig_Environment($loader);
@@ -29,34 +14,162 @@ $twig = new Twig_Environment($loader);
 $uri = $_SERVER['REQUEST_URI'];
 $uri = explode('/', $uri);
 
-// if (isset($_POST['logout'])) {
-
-// 	header('HTTP/1.1 401 Unauthorized');
-// 	$errorMsg = 'You have been logged Out';
-// 	unset($_POST);
-// 	goto notFound;
-// }
-
+if($uri[1]=='logout') {
+	header('HTTP/1.1 401 Unauthorized');
+	$errorMsg = 'You have been logged Out!!!';
+	session_unset();
+	unset($_POST);
+	session_destroy();
+	goto notFound;
+}
 if (empty($uri[1])) {
 		$pageFound=true;
 		echo $twig->render('web/home.html', array('title' => 'Home Page'));
 
 }else if ($uri[1]=='userPanel') {
-
+	if(!isset($_SESSION['userName'])){
+		goto notFound;
+	}
+	$userName= $_SESSION['userName'];
+	$userEmail= $_SESSION['userEmail'];
+	$userID=$_SESSION['userID'];
 	if (empty($uri[2])) {
 	$pageFound=true;
-		echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard'));
+		
+		echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard','uName'=>$userName,'uEmail'=>$userEmail));
 	}else if ($uri[2] == 'newComplaint') {
 		$pageFound=true;
-		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint'));
+		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint','uName'=>$userName,'uEmail'=>$userEmail));
+	}else if($uri[2] == 'userProfile') {
+		$pageFound=true;
+		echo $twig->render('userPanel/userProfile.html', array('title' => 'userProfile','uName'=>$userName,'uEmail'=>$userEmail,'userID'=>$userID));
+	}else if ($uri[2]=='standardComplaint') {
+		$pageFound=true;
+		$Events = new Event;
+		$Complaints = $Events->getStandardComplaints();
+		echo $twig->render('userPanel/standardComplaint.html', array('title' => 'standard Complaint','uName'=>$userName,'uEmail'=>$userEmail,'complaints'=>$Complaints));
+	}else if ($uri[2] == 'userWork') {
+		$pageFound=true;
+		$Events = new Event;
+		$complaints = $Events->getUserWork($userID);
+		//print_r($complaints);
+		 echo $twig->render('userPanel/myWork.html', array('title' => 'Work Section',
+		 	'uName'=>$userName,'uEmail'=>$userEmail,'complaints'=>$complaints));
 	}else if ($uri[2] == 'viewComplaint') {
 		$pageFound=true;
-		echo $twig->render('userPanel/viewComplaint.html', array('title' => 'New Complaint'));
+		$Events = new Event;
+		$Complaints = $Events->getComplaints($userID);
+		echo $twig->render('userPanel/viewComplaint.html', array('title' => 'View Complaint','complaints'=>$Complaints,'uName'=>$userName,'uEmail'=>$userEmail));
+	}else if ($uri[2] == 'complaintDetails') {
+		if(!isset($_GET['id'])){
+			goto notFound;
+		}
+		$pageFound=true;
+		$id=$_GET['id'];
+		$Events = new Event;
+		$Complaints = $Events->getComplaintsByID($id);
+		$comments=$Events->getCommentsByID($id);
+		echo $twig->render('userPanel/complaintDetails.html', array('title' => 'Complaint','complaints'=>$Complaints,'comments'=>$comments,'description' => file_get_contents($Events->getDescription($id)),'uName'=>$userName,'uEmail'=>$userEmail));
+	}elseif (strstr($uri[2], 'deleteComplaint')) {
+		if(!isset($_GET['id'])){
+			goto notFound;
+		}
+			$pageFound = true;
+			$id=$_GET['id'];
+			$event = new Event;
+			$description = $event->getDescription($id);
+			if ($event->Deletecomplaint($id)) {
+				unlink($description);
+				header("Location: /userPanel");
+				$event = null;
+				exit;
+
+			}
+	}elseif (strstr($uri[2], 'updateComplaint')) {
+			$pageFound = true;
+			$id=$_GET['id'];
+			$event = new Event;
+			$subject = $event->getSubject($id);
+			$cDate = $event->getDate($id);
+			$cTime = $event->getTime($id);
+			echo $twig->render('userPanel/updateComplaint.html', array('title' => 'Update Complaint','description' => file_get_contents($event->getDescription($id)),'uName'=>$userName,'uEmail'=>$userEmail,'subject'=>$subject,'cDate'=>$cDate,'cTime'=>$cTime,'id'=>$id));		
 	}
 
 
-}notFound:if (!$pageFound) {
+}else if ($uri[1]=='adminPanel') {
+	
+	 if (empty($uri[2])){
+	 if (!auth_user()) {
+		$errorMsg="invalid userName or Password";
+		goto notFound;
+ 	}
+	$pageFound=true;
+		echo $twig->render('adminPanel/dash.html', array('title' => 'Dashboard'));
+	}else if ($uri[2] == 'complaintData') {
+		$pageFound=true;
+		$id=$_GET['id'];
+		$Events = new Event;
+		$complaints = $Events->getComplaintsByID($id);
+		$comments=$Events->getCommentsByID($id);
+		echo $twig->render('adminPanel/complaintData.html',  array('title' => 'Complaint Data','complaints'=>$complaints,'comments'=>$comments,'description' => file_get_contents($Events->getDescription($id))));
+	}else if ($uri[2] == 'unseenComplaints') {
+		$pageFound=true;
+		$event = new Event;
+		$complaints = $event->getComplaintByStatus("UNSEEN");
+		echo $twig->render('adminPanel/unseenComplaints.html', array('title' => ' unseenComplaints','complaints'=>$complaints));
+	}else if ($uri[2] == 'activeComplaints') {
+		$pageFound=true;
+		$event = new Event;
+		$complaints = $event->getComplaintByStatus("ACTIVE");
+		echo $twig->render('adminPanel/activeComplaints.html', array('title' => ' activeComplaints','complaints'=>$complaints));
+	}else if ($uri[2] == 'pendngComplaints') {
+		$pageFound=true;
+		$event = new Event;
+		$complaints = $event->getComplaintByStatus("PENDING");
+		echo $twig->render('adminPanel/pendngComplaints.html', array('title' => ' pendngComplaints','complaints'=>$complaints));
+	}else if ($uri[2] == 'resolvedComplaints') {
+		$pageFound=true;
+		$event = new Event;
+		$complaints = $event->getComplaintByStatus("SOLVED");
+		echo $twig->render('adminPanel/resolvedComplaints.html', array('title' => ' resolvedComplaints','complaints'=>$complaints));
+	}else if ($uri[2] == 'usersProfile') {
+		$pageFound=true;
+		$event = new Event;
+			$users=$event->getUsers();
+		echo $twig->render('adminPanel/users.html', array('title' => 'usersProfile','users'=>$users));
+	}else if ($uri[2] =='complaintDetails') {
+		if(!isset($_GET['id'])){
+			goto notFound;
+		}
+		$pageFound=true;
+		$id=$_GET['id'];
+		$Events = new Event;
+		$Events->updateStatusPanding($id);
+		$UID=$Events->getUserIDbyCID($id);
+		$email=$Events->getEmailByuserID($UID);
+		$message="Your compalint seen by Admin they will sortly assign to some team member! Take Care (:-:) ";
+		//sendUpdate($email,$message);
+		$cat=$Events->getComplaintCategory($id);
+		$category=$Events->getAllCategory($cat);
+		$Complaints = $Events->getComplaintsByID($id);
+		$comments=$Events->getCommentsByID($id);
+		echo $twig->render('adminPanel/complaintDetails.html', array('title' => 'Complaint','complaints'=>$Complaints,'comments'=>$comments,'categories'=>$category,'description' => file_get_contents($Events->getDescription($id))));
+	}
+}else if ($uri[1]=='about'){
+	$pageFound = true;
+	echo $twig->render('web/about.html', array('title' => 'About US'));
+}else if ($uri[1]=='contact'){
+	$pageFound = true;
+	echo $twig->render('web/contact.html', array('title' => 'Contact US'));
+}else if ($uri[1]=='register'){
+	$pageFound = true;
+	echo $twig->render('web/register.html', array('title' => 'Register'));
+}else if ($uri[1]=='login'){
+	$pageFound = true;
+	echo $twig->render('web/login.html', array('title' => 'Login'));
+}
+notFound:if (!$pageFound) {
 
-	echo $twig->render('web/404.html', array('title' => '404!'));
+	echo $twig->render('web/404.html', array('title' => '404!','message'=>$errorMsg));
 }
 ?>
