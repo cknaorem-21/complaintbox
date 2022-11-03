@@ -1,4 +1,5 @@
 <?php
+require_once 'utils/mail.php';
 require_once 'utils/functions.php';
 require_once 'utils/event.php';
 require_once 'vendor/autoload.php';
@@ -42,7 +43,10 @@ if (empty($uri[1])) {
 		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint','uName'=>$userName,'uEmail'=>$userEmail));
 	}else if($uri[2] == 'userProfile') {
 		$pageFound=true;
-		echo $twig->render('userPanel/userProfile.html', array('title' => 'userProfile','uName'=>$userName,'uEmail'=>$userEmail,'userID'=>$userID));
+		$Events = new Event;
+		$activeCount = $Events->getCountActiveComplaint($userID);
+		$totalCount = $Events->getTotalCountComplaint($userID);
+		echo $twig->render('userPanel/userProfile.html', array('title' => 'userProfile','uName'=>$userName,'uEmail'=>$userEmail,'userID'=>$userID,'activeCount'=>$activeCount,'totalCount'=>$totalCount));
 	}else if ($uri[2]=='standardComplaint') {
 		$pageFound=true;
 		$Events = new Event;

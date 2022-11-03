@@ -1,6 +1,15 @@
 <?php
 require_once "database.php";
 class Event {
+	public function getavailUser($category){
+		$db = new database;
+		$db->mk_conn();
+		$sql="SELECT UID FROM users WHERE Category='$category' ORDER BY RAND() LIMIT 1";
+		$result = $db->query($sql);
+		$db->close();
+		$row = $result->fetch_assoc();
+		return $row['UID'];
+	}
 	public function getUserWork($id){
 		$db = new database;
 		$db->mk_conn();
@@ -39,6 +48,23 @@ class Event {
 			$row = $result->fetch_assoc();
 		}
 		return $complaints;
+	}
+	
+public function getCountActiveComplaint($userID){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT * from complaints where status = 'ACTIVE' AND UID='$userID'";
+		$result = $db->query($sql);
+		$db->close();
+		return mysqli_num_rows($result);
+	}
+public function getTotalCountComplaint($userID){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT * from complaints where UID='$userID'";
+		$result = $db->query($sql);
+		$db->close();
+		return mysqli_num_rows($result);
 	}
 
 public function assignWork($UID,$CID){
@@ -155,7 +181,18 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 				return 0;
 			}
 	}
-
+	public function checkUserExistance1($gmail){
+			$db = new database;
+			$db->mk_conn();
+			$sql = "SELECT * FROM users WHERE Email='$gmail'";
+			$result = $db->query($sql);
+			$db->close();
+			if(mysqli_num_rows($result))
+				return 0;
+			else{
+				return 1;
+			}
+	}
 	public function userLogin($email, $password){
 		$db = new database;
 			$db->mk_conn();
@@ -163,6 +200,18 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 			$result = $db->query($sql);
 			$db->close();
 			if(mysqli_num_rows($result))
+				return 1;
+			else{
+				return 0;
+			}
+	}
+	public function changePassword($email, $password){
+		$db = new database;
+			$db->mk_conn();
+		$sql = "UPDATE users SET Password='$password' WHERE Email='$email'";
+			$result = $db->query($sql);
+			$db->close();
+			if($result)
 				return 1;
 			else{
 				return 0;
@@ -325,5 +374,16 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 		$row = $result->fetch_assoc();
 		return $row['subject'];
 	}
+	public function addStandardComplaint($uid, $cdate, $ctime, $subject, $dec,$category){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "INSERT into complaints(UID,cDate,cTime,subject,cDescription,cType,status) values('$uid', '$cdate', '$ctime', '$subject', '$dec','$category','AUTOMETIC')";
+		$result = $db->query($sql);
+		$id=$db->getLastID();
+		$db->close();
+		if ($result)
+			return $id;
+
+		}
 }
 ?>

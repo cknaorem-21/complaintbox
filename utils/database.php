@@ -1,11 +1,9 @@
 <?php
 
 class database {
-
 	private $conn;
-
 	function mk_conn() {
-
+		
 		$server ="localhost";
 		$user = "root";
 		$pass = "";
@@ -27,7 +25,9 @@ class database {
 			error_log($sql . "\t" . $this->conn->error, 0);
 		}
 	}
-
+	function getLastID(){
+		return mysqli_insert_id($this->conn);
+	}
 	function close() {
 		$this->conn->close();
 	}

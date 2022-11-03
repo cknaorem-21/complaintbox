@@ -15,7 +15,7 @@
             <div class="row">
     <div class="col s12 m6">
           <br><br> <br><br>
-              <button style="border-radius: 8px;" class="btn waves-effect waves-green col s12" type="submit" name="flogin">login with google  
+              <button class="btn waves-effect waves-green col s12" type="submit" name="flogin">login with google  
 
       <i  class="material-icons left">email</i>
       <i  class="material-icons right">email</i>
@@ -25,13 +25,13 @@
 
     
 
-      <button style="border-radius: 8px;" class="btn waves-effect waves-green col s12" type="submit" name="flogin">login with  facebook 
+      <button  class="btn waves-effect waves-green col s12" type="submit" name="flogin">login with  facebook 
 
   
       <i  class="material-icons right">facebook</i>    <i  class="material-icons left">facebook</i>
     </button>
       <br><br> <br>
-      <a style="border-radius: 8px;" class="btn waves-effect waves-green col s12" href="/register">Register</a>
+      <a  class="btn waves-effect waves-green col s12" href="/register">Register</a>
      
   
 </div>
@@ -59,7 +59,7 @@
       <br><br>
       <br><br> <br>
     
-  <button style="border-radius: 8px;" class="btn waves-effect waves-green " type="submit" name="login">login 
+  <button  class="btn waves-effect waves-green " type="submit" name="login">login 
       <i  class="material-icons right">send</i>
     </button>
   </div>
@@ -67,7 +67,8 @@
         </span>
         <br>
          <div class="input-field col s12">
-           <button style="border-radius: 8px;" class="btn waves-effect waves-green col s12" type="submit" name="resetPassword">Forgot Password?
+           <a class="waves-effect waves-light btn modal-trigger col s12" href="#modal1">FORGET PASSWORD</a>
+           
 
   
       
@@ -76,39 +77,42 @@
    
 
   </div>
-            <!--
+            
+ <!-- Modal Trigger -->
+ 
 
-
-
-   <form>
-    <div class="row">
-    <div class="input-field col s12">
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <form action="/utils/request.php" method="POST" >
+    <div class="modal-content">
+      <h4>Enter an email which you have registred with this portal</h4>
+     <div class="input-field col s12">
           <i class="material-icons prefix">email</i>
-          <input required name="gmail" id="gmail" type="text" class="validate">
+          <input required name="gmail" id="gmail" type="email" class="validate">
           <label for="gmail">Email ID</label>
         </div>
-
-      <div class="input-field col s12">
-          <i class="material-icons prefix">vpn_key</i>
-          <input id="password" type="text" class="validate">
-          <label for="password">Password</label>
-        </div>
-
-
-         <div class="tooltipped" data-position="top" data-delay="50" data-tooltip="login"  style="text-align: center;">
-           <br>
-      <br><br> <br>
-      <br><br>
-      <br><br> <br>
-    
-  <button style="border-radius: 8px;" class="btn waves-effect waves-green" type="submit" name="login">login 
-      <i  class="material-icons right">send</i>
-    </button>
+    </div>
+    <br>
+    <br>
+    <br>
+       <div class="modal-footer">
+      <button class="btn waves-effect waves-light" 
+       type="submit" name="forgetPassword">Submit
+    <i class="material-icons right">send</i>
+  </button>
+</div>
   </div>
-   </form>
- -->
+</form>
+
+
   </fieldset>
    </div>
  </body>
-
+<script type="text/javascript">
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+</script>
    {%endblock%}

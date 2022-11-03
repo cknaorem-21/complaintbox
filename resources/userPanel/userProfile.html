@@ -3,6 +3,7 @@
    
 
       {%block mainblock%} 
+
     <div class="col s12 m12 l9">
 <main>
   <section>
@@ -14,13 +15,13 @@
 
     <div class="col s12 m6">
       <div class="card-panel teal">
-        <span class="white-text"><h3>Total Complaint</h3>
+        <span class="white-text"><h4>Total Complaint [ {{totalCount}} ]</h4>
         </span>
       </div>
     </div>
     <div class="col s12 m6">
       <div class="card-panel teal">
-        <span class="white-text"><h3>Active Complaint</h3>
+        <span class="white-text"><h4>Active Complaint [ {{activeCount}} ] </h4>
         </span>
       </div>
   </div>
@@ -33,11 +34,18 @@
  <ul class="collection">
     <li class="collection-item avatar">
       <img src="/images/download.png" alt="" class="circle">
-      <span class="title">NAME : {{uName}} </span>
-      <p>EMAIL : {{uEmail}} 
+      <span class="title">{{uName}} </span>
+      <p>{{uEmail}} 
       </p>
+       <p>Department
+      </p>
+ <p>+91 4343433443
+      </p>
+ <p>Address
+      </p>
+
       <br>
-      <a href="#!" class="secondary-content">Change Passowrd</a>
+      <a href="#modal1" class="waves-effect waves-light btn modal-trigger secondary-content">Change Passowrd</a>
     </li>
    
   </ul>
@@ -48,5 +56,54 @@
 <main>
 </div>
 
+  <!-- Modal Trigger -->
 
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+  
+    <form action="/utils/request.php" method="POST">
+    <div class="modal-content">
+    <form class="col s12">
+      <div class="row">
+          <fieldset><legend><strong>Change your Password</strong></legend>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">key</i>
+          <input  type="password" id="txtPassword" name="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">key</i>
+          <input  type="password" id="txtConfirmPassword" class="validate">
+          <label for="txtConfirmPassword">Confirm Password</label>
+        </div>
+        <br>
+        <br>
+        <div class="modal-footer">
+      <button class="btn waves-effect waves-light" onclick="return Validate()" type="submit" name="changePassword">Submit
+    <i class="material-icons right">send</i>
+  </button>
+</div>
+   </fieldset>
+      </div>
+    </form>
+   
+  </div>
+
+    
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+     function Validate() {
+        var password = document.getElementById("txtPassword").value;
+        var confirmPassword = document.getElementById("txtConfirmPassword").value;
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    }
+</script>
           {%endblock%}

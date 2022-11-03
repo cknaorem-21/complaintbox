@@ -19,7 +19,7 @@ try {
     $mail->setFrom('complaintbox.avishkar2022@gmail.com');
     $mail->addAddress($email);
     $mail->isHTML(true);                                  
-    $mail->Subject ='Update!, Regarding your complaint';
+    $mail->Subject ='Update!, From ComplaintBox.';
     $mail->Body =$message;
     if($mail->send()){
         return true;
