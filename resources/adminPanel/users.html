@@ -1,0 +1,33 @@
+{%extends 'adminPanel/dash.html'%}
+      {%block mainblock%} 
+    <div class="col s12 m12 l9">
+<main>
+  <section>
+    <div class="section">
+      <fieldset>
+        <legend><h5>User List</h5></legend>
+        <br>
+   <ul class="collection">
+     {% for user in users %}
+    <li class="collection-item avatar">
+      <img src="/images/download.png" alt="" class="circle">
+      <span class="title">{{user.Name}}</span>
+      <p>{{user.Category}}<br>
+        {{user.Email}}<br>
+        +91-{{user.Mobile}}<br>
+        {{user.Address}}<br>
+
+      </p>
+      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+     {% endfor %}
+   </ul>
+     
+  </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+
+
+          {%endblock%}

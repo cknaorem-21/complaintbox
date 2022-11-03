@@ -1,0 +1,37 @@
+{%extends 'userPanel/dash.html'%}
+      {%block mainblock%} 
+    <div class="col s12 m12 l9">
+<main>
+  <section>
+    <div class="section">
+      <fieldset>
+        <legend><h5>Complaint Assign to y by admin</h5></legend>
+        <br>
+  <ul class="collection">
+    {% for complaint in complaints %}
+    <li class="collection-item avatar">
+      <i class="material-icons circle">description</i>
+     
+      <span class="title">complaint ID : {{complaint.CID}}</span>
+      <p>Date & Time :  {{complaint.cDate}} || {{complaint.cTime}}<br>
+        <p>Category :  {{complaint.cType}} </p>
+         Subject : {{complaint.subject}}
+      </p>
+      <br>
+      <a href="/userPanel/colseComplaint/?id={{complaint.CID}}">Send Mail to user</a>   ||  
+      <a href="">Colse this complaint</a>
+      <a href="/userPanel/complaintDetails/?id={{complaint.CID|e}}" class="btn-floating btn-large teal darken-3 pulse secondary-content"><i class="material-icons">lock_open</i></a>
+      
+    </li>
+   {% endfor %}
+  </ul>
+   
+     
+  </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+
+
+          {%endblock%}

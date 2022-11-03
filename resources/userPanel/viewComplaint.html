@@ -1,10 +1,16 @@
 {%extends 'userPanel/dash.html'%}
    
-      {%block mainblock%} 
-<fieldset>
-    <legend> <h1>All Complaints submit by you</h1></legend>
+   
 
-<table class="responsive-table">
+      {%block mainblock%} 
+    <div class="col s12 m12 l9">
+<main>
+  <section>
+    <div class="section">
+      <fieldset>
+        <legend><h5>Dashboard:</h5></legend>
+        <br>
+  <table class="responsive-table">
         <thead>
           <tr>
             <th>complaint id</th>
@@ -23,17 +29,23 @@
             <td>{{complaint.cDate}}</td>
             <td>{{complaint.status|e}}</td>
             <td>,<a href="/userPanel/complaintDetails/?id={{complaint.CID|e}}"> <i class="Small
-
- material-icons">details</i></a></td>
-             <td>,<a href="?{{complaint.CID|e}}"> <i class="Small
-
+ material-icons">description</i></a></td>
+             <td>,<a onclick="return getUpdateConfirmation();" href="/userPanel/updateComplaint/?id={{complaint.CID|e}}"> <i class="Small
  material-icons">update</i></a></td>
-               <td>,<a href="?{{complaint.CID|e}}"> <i class="Small
-
+               <td>,<a onclick="return getConfirmation();" href="/userPanel/deleteComplaint/?id={{complaint.CID|e}}" > <i class="Small
  material-icons">delete_forever</i></a></td>
           </tr>
             {% endfor %}
         </tbody>
       </table>
-</fieldset>
-       {%endblock%}
+   
+     
+  </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+
+
+          {%endblock%}
+
