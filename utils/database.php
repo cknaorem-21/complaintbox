@@ -1,5 +1,7 @@
 <?php
-
+//user:complaintboxuser:id19809824_complaintboxuser
+//pass:OKatuP#$t=ZT]F9D
+//dbname:complaintbox:id19809824_complaintbox
 class database {
 	private $conn;
 	function mk_conn() {

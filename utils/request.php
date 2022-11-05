@@ -87,6 +87,21 @@ if($event->addComplaint($uid, $cdate, $ctime, $subject, $cDescription,$category)
 	 	exit;
 
 	}
+}else if(isset($_POST['sendEmail'])){
+	$CID=$_POST['CID'];
+	$subject=$_POST['subject'];
+	$msg=$subject.$_POST['message'];
+	$event = new Event;
+	$UID=$event->getUserIDbyCID($CID);
+	$gmail=$event->getEmailID($UID);
+	if(sendUpdate($gmail,$msg)){
+	echo '<script>alert("Your Message has been sent!!!")</script>';
+		 header("refresh:0; url=/userPanel/userWork");
+	}else{
+		echo '<script>alert("There is some problem please try after some time!")</script>';
+		 header("refresh:0; url=/userPanel/userWork");
+	}
+
 }else if(isset($_POST['query'])){
 	$Name=$_POST['userName'];
 	$userMail=$_POST['userMail'];
@@ -125,7 +140,7 @@ echo'<script>alert("User with this Email ID ' .$gmail .' DNE!!")</script>';
 			 header("refresh:0; url=/login");
 	}
 	$changePassword=rand();
-	if($event->changePassword($_SESSION['userEmail'],md5($changePassword))){
+	if($event->changePassword($gmail,md5($changePassword))){
 	$event = null;
 	echo '<script>alert("password changed check your email box! !")</script>';
 	$msg="Hay! your password changed successfully your new password is ".$changePassword." ,thankyou!! ";

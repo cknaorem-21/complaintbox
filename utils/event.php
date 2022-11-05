@@ -105,6 +105,20 @@ public function getUsers(){
 		}
 		return $users;
 }
+public function getUserData($email){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT * from users WHERE Email='$email'";
+		$result = $db->query($sql);
+		$db->close();
+		$users = array();
+		$row = $result->fetch_assoc();
+		while ($row) {
+			array_push($users, $row);
+			$row = $result->fetch_assoc();
+		}
+		return $users;
+}
 public function getAllCategory($userType){
 		$db = new database;
 		$db->mk_conn();
@@ -138,6 +152,15 @@ public function getUserID($email) {
 		$row = $result->fetch_assoc();
 		return $row['UID'];
 	}
+	public function getEmailID($uid) {
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT Email from users where UID = '$uid'";
+		$result = $db->query($sql);
+		$db->close();
+		$row = $result->fetch_assoc();
+		return $row['Email'];
+	}
 public function getUserName($email) {
 
 		$db = new database;
@@ -167,8 +190,17 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 		$db->close();
 		if ($result)
 			return true;
-
-		}
+}
+public function userRegistrationbyGoogleAccout($Name,$gmail){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "INSERT INTO users(Name,Email)VALUES('$Name','$gmail')";
+		$result = $db->query($sql);
+		$id=$db->getLastID();
+		$db->close();
+		if ($result)
+			return $id;
+}
 	public function checkUserExistance($gmail,$mobile){
 			$db = new database;
 			$db->mk_conn();
@@ -193,7 +225,7 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 				return 1;
 			}
 	}
-	public function userLogin($email, $password){
+	public function userLogin($email,$password){
 		$db = new database;
 			$db->mk_conn();
 		$sql = "SELECT * FROM users WHERE Email='$email' AND Password='$password'";
@@ -209,6 +241,18 @@ public function userRegistration($Name,$password,$category,$gmail,$mobile,$addre
 		$db = new database;
 			$db->mk_conn();
 		$sql = "UPDATE users SET Password='$password' WHERE Email='$email'";
+			$result = $db->query($sql);
+			$db->close();
+			if($result)
+				return 1;
+			else{
+				return 0;
+			}
+	}
+	public function markSolved($id){
+		$db = new database;
+			$db->mk_conn();
+		$sql = "UPDATE complaints SET status='SOLVED' WHERE CID='$id'";
 			$result = $db->query($sql);
 			$db->close();
 			if($result)
