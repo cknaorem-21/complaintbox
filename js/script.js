@@ -17,6 +17,15 @@
                }
             }
 
+function marksolved(){
+               var retVal = confirm("Do you want to marked solve?");
+               if( retVal == true ){
+                  return true;
+               }
+               else{
+                  return false;
+               }
+            }
 // sidenav
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.sidenav');

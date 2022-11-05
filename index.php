@@ -1,11 +1,15 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'utils/mail.php';
 require_once 'utils/functions.php';
 require_once 'utils/event.php';
 require_once 'vendor/autoload.php';
+require_once 'utils/config.php';
 ini_set('display_errors', 1);
 error_reporting(~0);
-session_start();
+
 $pageFound=false;
 $errorMsg="";
 
@@ -18,6 +22,8 @@ $uri = explode('/', $uri);
 if($uri[1]=='logout') {
 	header('HTTP/1.1 401 Unauthorized');
 	$errorMsg = 'You have been logged Out!!!';
+	//Reset OAuth access token
+	$google_client->revokeToken();
 	session_unset();
 	unset($_POST);
 	session_destroy();
@@ -29,24 +35,25 @@ if (empty($uri[1])) {
 
 }else if ($uri[1]=='userPanel') {
 	if(!isset($_SESSION['userName'])){
+		$errorMsg="Invalid Access!!";
 		goto notFound;
 	}
 	$userName= $_SESSION['userName'];
 	$userEmail= $_SESSION['userEmail'];
 	$userID=$_SESSION['userID'];
-	if (empty($uri[2])) {
+	if (empty($uri[2])||isset($_GET['code']) ){
 	$pageFound=true;
-		
-		echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard','uName'=>$userName,'uEmail'=>$userEmail));
-	}else if ($uri[2] == 'newComplaint') {
+	echo $twig->render('userPanel/dash.html', array('title' => 'Dashboard','uName'=>$userName,'uEmail'=>$userEmail));
+	}else if ($uri[2] == 'newComplaint'){
 		$pageFound=true;
 		echo $twig->render('userPanel/addcomplaint.html', array('title' => 'New Complaint','uName'=>$userName,'uEmail'=>$userEmail));
 	}else if($uri[2] == 'userProfile') {
 		$pageFound=true;
 		$Events = new Event;
+		$userdata=$Events->getUserData($userEmail);
 		$activeCount = $Events->getCountActiveComplaint($userID);
 		$totalCount = $Events->getTotalCountComplaint($userID);
-		echo $twig->render('userPanel/userProfile.html', array('title' => 'userProfile','uName'=>$userName,'uEmail'=>$userEmail,'userID'=>$userID,'activeCount'=>$activeCount,'totalCount'=>$totalCount));
+		echo $twig->render('userPanel/userProfile.html', array('title' => 'userProfile','uName'=>$userName,'uEmail'=>$userEmail,'userID'=>$userID,'activeCount'=>$activeCount,'totalCount'=>$totalCount,'users'=>$userdata));
 	}else if ($uri[2]=='standardComplaint') {
 		$pageFound=true;
 		$Events = new Event;
@@ -57,7 +64,7 @@ if (empty($uri[1])) {
 		$Events = new Event;
 		$complaints = $Events->getUserWork($userID);
 		//print_r($complaints);
-		 echo $twig->render('userPanel/myWork.html', array('title' => 'Work Section',
+		 echo $twig->render('userPanel/myWork.html', array('title' => 'WorkSection',
 		 	'uName'=>$userName,'uEmail'=>$userEmail,'complaints'=>$complaints));
 	}else if ($uri[2] == 'viewComplaint') {
 		$pageFound=true;
@@ -89,6 +96,19 @@ if (empty($uri[1])) {
 				exit;
 
 			}
+	}elseif (strstr($uri[2], 'colseComplaint')) {
+		if(!isset($_GET['id'])){
+			goto notFound;
+		}
+			$pageFound = true;
+			$id=$_GET['id'];
+			$event = new Event;
+			if ($event->markSolved($id)){
+				header("Location: /userPanel/userWork");
+				$event = null;
+				exit;
+
+			}
 	}elseif (strstr($uri[2], 'updateComplaint')) {
 			$pageFound = true;
 			$id=$_GET['id'];
@@ -98,7 +118,6 @@ if (empty($uri[1])) {
 			$cTime = $event->getTime($id);
 			echo $twig->render('userPanel/updateComplaint.html', array('title' => 'Update Complaint','description' => file_get_contents($event->getDescription($id)),'uName'=>$userName,'uEmail'=>$userEmail,'subject'=>$subject,'cDate'=>$cDate,'cTime'=>$cTime,'id'=>$id));		
 	}
-
 
 }else if ($uri[1]=='adminPanel') {
 	
@@ -170,10 +189,14 @@ if (empty($uri[1])) {
 	echo $twig->render('web/register.html', array('title' => 'Register'));
 }else if ($uri[1]=='login'){
 	$pageFound = true;
-	echo $twig->render('web/login.html', array('title' => 'Login'));
+	$login_button=$google_client->createAuthUrl();
+	echo $twig->render('web/login.html', array('title' => 'Login','login'=>$login_button));
 }
 notFound:if (!$pageFound) {
 
 	echo $twig->render('web/404.html', array('title' => '404!','message'=>$errorMsg));
 }
+//ID 675623056178-uhlpgh3i7hfn2sqa8h1a87lh8b2ugp1c.apps.googleusercontent.com
+
+//CS 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
 ?>
