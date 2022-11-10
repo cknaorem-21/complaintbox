@@ -1,0 +1,104 @@
+{%extends 'adminPanel/dash.html'%}
+      {%block mainblock%} 
+    <div class="col s12 m12 l9">
+<main>
+  <section>
+    <div class="section">
+      <fieldset>
+        <legend><h5>STANDARD COMPLAINTS</h5></legend>
+        <br>
+ 
+     <form action="/utils/request.php"  method="POST">
+     
+        <div class="input-field col s12">
+           <i class="material-icons prefix">class</i>
+          <input id="subject" name="subject" required  type="text" class="validate">
+          <label for="subject">Subject</label>
+        </div>
+          <div data-position="top" data-delay="50" class=" tooltipped input-field col s12" data-tooltip="Enter valid category">
+          <i class="material-icons prefix">group_work</i>
+          <select name="category" required>
+          <option  value="" disabled selected>Choose your option</option>
+          <option value="ELECTRICIAN">ELECTRICIAN</option>
+          <option value="PLUMBER">PLUMBER</option>
+          <option value="RESIDENT">RESIDENT</option>
+           <option value="OTHERS">OTHERS</option>
+        </select>
+         <label>Complaint category</label>
+          </div>
+  
+        
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea name="cDescription" required id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Write your Complaint</label>
+  </div>
+  <button  class="btn waves-effect waves-light" type="submit" name="standardAddition">Submit
+    <i class="material-icons right">send</i>
+  </button>
+      </form>  
+     
+      <div style="margin-top: 100px;margin-bottom: 50px;" class="divider"></div>
+      {% for complaint in complaints %}
+     <div class="col s12 m12">
+      <div class="card-panel teal">
+        <span class="white-text">
+          <p><strong>Category : </strong> {{complaint.category}}</p>
+          <p><strong>Subject : </strong> {{complaint.subject}}</p>
+          <p><strong>Description : </strong> {{complaint.Description}}</p>
+        </span>
+    <div id="modal1{{complaint.id}}" class="modal">
+
+    <div class="modal-content">
+       <fieldset> <legend>UPDATE DETAILS</legend> 
+        <form action="/utils/request.php"  method="POST">
+          <input type="hidden" name="id" value="{{complaint.id}}">
+           <div class="input-field col s12">
+          <input value="{{complaint.subject}}" name="updateSubject" type="text" class="validate">
+          <label for="updateSubject">SUBJECT</label>
+        </div>
+        <div data-position="top" data-delay="50" class=" tooltipped input-field col s12" data-tooltip="Enter valid category">
+          <i class="material-icons prefix">group_work</i>
+          <select name="updateCategory" required>
+          <option  value="{{complaint.category}}" selected>{{complaint.category}}</option>
+          <option value="ELECTRICIAN">ELECTRICIAN</option>
+          <option value="PLUMBER">PLUMBER</option>
+          <option value="RESIDENT">RESIDENT</option>
+           <option value="OTHERS">OTHERS</option>
+        </select>
+         <label>Complaint category</label>
+          </div>
+         <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <textarea id="icon_prefix2" name="Description"  class="materialize-textarea">{{complaint.Description|e}}</textarea>
+          <label for="icon_prefix2">Description</label>
+        </div>
+        <button  class="btn waves-effect waves-light" type="submit" 
+        name="standardAdditionUpdate">Submit
+    <i class="material-icons right">send</i>
+  </button>
+        </form>  
+        </fieldset>
+    </div>
+   
+  </div>
+        
+  <a class="btn waves-effect waves-light modal-trigger" href="#modal1{{complaint.id}}"><i class="material-icons right">edit</i>UPDATE</a>
+
+      </div>
+    </div>
+       {% endfor %}
+  </fieldset>
+    </div>
+  </section>
+<main>
+</div>
+<script type="text/javascript">
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+
+</script>
+
+          {%endblock%}

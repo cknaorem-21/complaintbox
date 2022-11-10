@@ -14,12 +14,23 @@
     <div class="col s12">
       <div class="card-panel teal">
         <span class="white-text">
-          <p>COMPLAINT ID: {{complaint.CID}}</p><br><br>
-          <p>COMPLAINT ID: {{complaint.cDate}}</p><br><br>
-          <p>COMPLAINT ID: {{complaint.cTime}}</p><br>
-          <p>COMPLAINT ID: {{description|raw}}</p><br>
-          <p>COMPLAINT ID: {{complaint.status}}</p><br><br>
-        </span>
+          <p>Complaint ID: {{complaint.CID}}</p><br>
+          <p>Complaint Date: {{complaint.cDate}}</p><br>
+          <p>Complaint Time: {{complaint.cTime}}</p><br>
+            <p>Complaint Subject: {{complaint.subject}}</p><br>
+          <p>Complaint Description: {{description|raw}}</p><br>
+          <p>Complaint Status: {{complaint.status}}</p><br><br>
+        
+      <div class="divider" ></div>
+      
+      {% for w in worker %}
+      <h4>ASSIGNMENT SECTION</h4>
+      <p>Complaint has been assigned to: </p>
+      <p>Name: {{w.Name}}</p>
+      <p>Email: {{w.Email}}</p>
+      <p>Mobile: +91-{{w.Mobile}} </p>
+       {% endfor %}
+    </span>
       </div>
     </div>
 
@@ -44,7 +55,7 @@
 <ul class="collection">
   {% for comment in comments %}
     <li class="collection-item avatar">
-      <i class="material-icons circle green">insert_chart</i>
+      <i class="material-icons circle green">account_circle</i>
       <span class="title">{{comment.Name}}</span>
       <p>  <p>{{comment.timeDate}}</p>
       <br>
@@ -58,6 +69,8 @@
 </fieldset>
     </div>
   </section>
+  <!-- assiment section start here!!!-->
+  
 <main>
 </div>
     {%endblock%}

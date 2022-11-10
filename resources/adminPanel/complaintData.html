@@ -11,11 +11,20 @@
     <div class="col s12">
       <div class="card-panel teal">
         <span class="white-text">
-          <p>COMPLAINT ID: {{complaint.CID}}</p><br><br>
-          <p>COMPLAINT ID: {{complaint.cDate}}</p><br><br>
-          <p>COMPLAINT ID: {{complaint.cTime}}</p><br>
-          <p>COMPLAINT ID: {{description|raw}}</p><br>
-          <p>COMPLAINT ID: {{complaint.status}}</p><br><br>
+          <p>COMPLAINT ID: {{complaint.CID}}</p><br>
+          <p>COMPLAINT DATE: {{complaint.cDate}}</p><br>
+          <p>COMPLAINT TIME: {{complaint.cTime}}</p><br>
+          <p>COMPLAINT DESCRIPTION: {{description|raw}}</p><br>
+          <p>COMPLAINT STATUS: {{complaint.status}}</p><br>
+           <div class="divider" ></div>
+      
+      {% for w in Worker %}
+      <h4>ASSIGNMENT SECTION</h4>
+      <p>Complaint has been assigned to: </p>
+      <p>Name: {{w.Name}}</p>
+      <p>Email: {{w.Email}}</p>
+      <p>Mobile: +91-{{w.Mobile}} </p>
+       {% endfor %}
         </span>
       </div>
     </div>

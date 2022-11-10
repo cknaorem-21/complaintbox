@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 05:43 PM
+-- Generation Time: Nov 10, 2022 at 08:41 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `complaintbox`
 --
-CREATE DATABASE IF NOT EXISTS `complaintbox` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `complaintbox`;
 
 -- --------------------------------------------------------
 
@@ -41,9 +39,7 @@ CREATE TABLE `assignment` (
 --
 
 INSERT INTO `assignment` (`AID`, `CID`, `UID`, `Status`) VALUES
-(2, 21, 14, 'ASSIGNED'),
-(3, 24, 13, 'ASSIGNED'),
-(4, 22, 11, 'ASSIGNED');
+(5, 30, 15, 'ASSIGNED');
 
 -- --------------------------------------------------------
 
@@ -65,11 +61,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`ID`, `CID`, `UID`, `Name`, `timeDate`, `comment`) VALUES
-(16, 21, 14, 'Admin', 'Nov,02,2022 02:36:22 PM', 'Message From admin'),
-(17, 24, 13, 'Admin', 'Nov,02,2022 02:49:14 PM', 'heyyyyy colll booyysss do this work'),
-(18, 21, 0, 'Admin', 'Nov,02,2022 04:47:47 PM', 'heyyy userss'),
-(19, 22, 11, 'Admin', 'Nov,02,2022 05:22:43 PM', 'Hiii this issue sooooooonnnnnnnn'),
-(20, 22, 11, 'Mohd Monish', 'Nov,02,2022 06:30:01 PM', 'dfdfddf');
+(21, 30, 20, 'Mohd Monish', 'Nov,10,2022 02:05:41 PM', 'heyyy admin plzz see my complaint !'),
+(22, 30, 15, 'Admin', 'Nov,10,2022 02:10:21 PM', 'hey Aman plzzz read it carefully nd solve this problem');
 
 -- --------------------------------------------------------
 
@@ -93,15 +86,8 @@ CREATE TABLE `complaints` (
 --
 
 INSERT INTO `complaints` (`CID`, `UID`, `cDate`, `cTime`, `cType`, `subject`, `cDescription`, `status`) VALUES
-(21, 11, 'Nov 14, 2022', '08:17 PM', 'OTHERS', 'my cmplaint  subject ', 'description/199545862708:17 PM11.html', 'SOLVEDACTIVE'),
-(22, 11, 'Nov 14, 2022', '02:15 AM', 'RESIDENT', 'second subject', 'description/64708022202:15 AM11.html', 'ACTIVE'),
-(23, 11, 'Nov 24, 2022', '03:18 AM', 'OTHERS', 'fgfdfg', 'description/110186874903:18 AM11.html', 'PENDING'),
-(24, 13, 'Nov 14, 2022', '12:48 AM', 'PLUMBER', 'this is my subject', 'description/158726778612:48 AM13.html', 'ACTIVE'),
-(25, 18, 'Nov 15, 2022', '04:11 AM', 'ELECTRICIAN', 'this is complaint subject', 'description/151257660004:11 AM18.html', 'UNSEEN'),
-(26, 11, 'Nov 15, 2022', '12:16 PM', 'PLUMBER', 'heyyy this is my complaint', 'description/71087256112:16 PM11.html', 'UNSEEN'),
-(27, 13, 'Nov,02,2022', '09:42:22 PM', 'PLUMBER', 'complaint subjectc', 'description/638868049.html', 'UNSEEN'),
-(28, 13, 'Nov,02,2022', '09:43:51 PM', ' RESIDENT', 'Heyyy Subject Anything that can cause harmful problems.', 'description/203897279813955948311684928866.html', 'UNSEEN'),
-(29, 13, 'Nov,02,2022', '09:44:16 PM', ' OTHERS', 'Anything that can cause harmful problems.', 'description/8404478281948890720398322653.html', 'UNSEEN');
+(30, 20, 'Nov 25, 2022', '04:31 PM', 'PLUMBER', 'this is complaint subject', 'description/151692863212869856901586082660.html', 'ACTIVE'),
+(41, 20, 'Nov 24, 2022', '03:06 PM', 'PLUMBER', 'hjgh nghfg jhtuy jyu ftg', 'description/1502101608983389761048757085.html', 'PENDING');
 
 -- --------------------------------------------------------
 
@@ -121,7 +107,7 @@ CREATE TABLE `standardcomplaints` (
 --
 
 INSERT INTO `standardcomplaints` (`id`, `category`, `subject`, `Description`) VALUES
-(1, 'RESIDENT', 'Heyyy Subject Anything that can cause harmful problems.', 'Request repairs. Of course, put in a repair request first. But if that gets ignored, send a complaint letter. Some examples of necessary repairs include leaky faucets, plumbing issues, broken appliances and leaks in the roof. Failure to complete regular maintenance outlined in the lease also qualifies.\nRepeated issues with neighbors, such as loud music, fighting or other disruptive behavior. However, if you suspect anything that\'s extremely dangerous and/or against the law, such as domestic abuse, call the police immediately.\nAnything that can cause health problems, like rodents, insects and mold. Problems like these are more likely to happen in a rental house'),
+(1, 'PLUMBER', 'bsdgdshghsad sadghjdasg asjgdhas', 'skdhasndjk asddha'),
 (2, 'OTHERS', 'Anything that can cause harmful problems.', 'Request repairs. Of course, put in a repair request first. But if that gets ignored, send a complaint letter. Some examples of necessary repairs include leaky faucets, plumbing issues, broken appliances and leaks in the roof. Failure to complete regular maintenance outlined in the lease also qualifies.\r\nRepeated issues with neighbors, such as loud music, fighting or other disruptive behavior. However, if you suspect anything that\'s extremely dangerous and/or against the law, such as domestic abuse, call the police immediately.\r\nAnything that can cause health problems, like rodents, insects and mold. Problems like these are more likely to happen in a rental house');
 
 -- --------------------------------------------------------
@@ -135,7 +121,7 @@ CREATE TABLE `users` (
   `Name` varchar(200) NOT NULL,
   `Email` varchar(200) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `Category` varchar(100) NOT NULL,
+  `Category` varchar(100) NOT NULL DEFAULT 'OTHERS',
   `Mobile` varchar(20) NOT NULL,
   `Address` varchar(250) NOT NULL,
   `workStatus` varchar(10) NOT NULL DEFAULT 'NO'
@@ -153,7 +139,8 @@ INSERT INTO `users` (`UID`, `Name`, `Email`, `Password`, `Category`, `Mobile`, `
 (15, 'Aman Mishra', 'monish2021.mca@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'PLUMBER', '9821446258', 'Mnnit Allahabad UP India', 'NO'),
 (16, 'Chinglen  Khomba', 'cknaorem.kakching@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'RESIDENT', '7898653412', 'Manipur West Imphal', 'NO'),
 (17, 'Kumari Aanchal', 'aanchalnav2512@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'ELECTRICIAN', '9821446257', 'Delhi India ', 'NO'),
-(18, 'Pooja  Rani', 'aanchalnavlakha477@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'PLUMBER', '9821444356', 'Mnnit Allahabad INDIA', 'NO');
+(18, 'Pooja  Rani', 'aanchalnavlakha477@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'PLUMBER', '9821444356', 'Mnnit Allahabad INDIA', 'NO'),
+(20, 'Mohd Monish', 'complaintbox.avishkar2022@gmail.com', '', 'OTHERS', '', '', 'NO');
 
 --
 -- Indexes for dumped tables
@@ -202,31 +189,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `assignment`
 --
 ALTER TABLE `assignment`
-  MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `complaints`
 --
 ALTER TABLE `complaints`
-  MODIFY `CID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `CID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `standardcomplaints`
 --
 ALTER TABLE `standardcomplaints`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `UID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables

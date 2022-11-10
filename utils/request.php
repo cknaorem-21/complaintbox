@@ -19,10 +19,10 @@ if (isset($_POST['addComplaint'])) {
 	}
 	$event = new Event;
 if($event->addComplaint($uid, $cdate, $ctime, $subject, $cDescription,$category)) {
-		$msg="Hay! ".$_SESSION['userName']." your complaint submitted successfully  we'll assign your complaint to our Department team soon you will get update regrading this complaint!, thankyou!! ";
+		$msg="Hey! ".$_SESSION['userName']." Your complaint submitted successfully  we'll assign your complaint to our worker soon, you will get update regrading this complaint and will try to resolve it faster!, ThankYou!! ";
 		sendUpdate($_SESSION['userEmail'],$msg);
 		$event = null;
-	 	header("Location: /userPanel/");
+	 	header("Location: /userPanel/viewComplaint");
 
 	}
 
@@ -33,7 +33,7 @@ if($event->addComplaint($uid, $cdate, $ctime, $subject, $cDescription,$category)
 	$cid=$_POST['CID'];
 
 	if (!empty($_POST['cDescription'])) {
-		$cDescription = "description/" .rand().$ctime.$uid.".html";
+		$cDescription = "description/".rand().rand().rand().".html";
 		$description = $_POST['cDescription'];
 		$descFile = fopen("../" . $cDescription, "w");
 		fwrite($descFile, $description);
@@ -143,7 +143,7 @@ echo'<script>alert("User with this Email ID ' .$gmail .' DNE!!")</script>';
 	if($event->changePassword($gmail,md5($changePassword))){
 	$event = null;
 	echo '<script>alert("password changed check your email box! !")</script>';
-	$msg="Hay! your password changed successfully your new password is ".$changePassword." ,thankyou!! ";
+	$msg="Hey! your password changed successfully.Your new password is ".$changePassword." ,ThankYou!! ";
 		sendUpdate($gmail,$msg);
 
 		 header("refresh:0; url=/");
@@ -170,15 +170,58 @@ echo'<script>alert("User with this Email ID ' .$gmail .' DNE!!")</script>';
 	}
 	$event = new Event;
 	$UID=$event->getavailUser(trim($category));
+	if($UID==null){
+		echo '<script>alert("There is no user available at this time please try after some time!")</script>';
+		 header("refresh:0; url=/userPanel/standardComplaint");
+	}else{
+	
 	$CID=$event->addStandardComplaint($uid, $cdate, $ctime, $subject, $cDescription,$category);
-	if($event->assignWork($UID,$CID)){
-	$msg="Hay! ".$_SESSION['userName']." your complaint with complaint id ".$CIT." assigned to our Department team you will get update soon regrading this complaint!, thankyou!! ";
-		sendUpdate($_SESSION['userEmail'],$msg);
-		$event = null;
-	 	header("Location: /userPanel/viewComplaint");
-	 	exit;
-	}
+			if($event->assignWork($UID,$CID)){
+			$msg="Hey! ".$_SESSION['userName']." Your complaint with complaint id ".$CID." assigned to our Department team,you will get update soon regrading this complaint!, Thankyou!! ";
+				sendUpdate($_SESSION['userEmail'],$msg);
+				$event = null;
+			 	header("Location: /userPanel/viewComplaint");
+			 	exit;
+		}	}
 
+
+}else if (isset($_POST['updateProfile'])){
+	$mobile=$_POST['Mobile'];
+	$category=$_POST['category'];
+	$address=$_POST['address'];
+	$UID=$_SESSION['userID'];
+	$event = new Event;
+	 if ($event->updateProfile($UID,$mobile,$category,$address)) {
+		$event = null;
+	 	header("Location: /userPanel/userProfile");
+	 	exit;
+
+	}
+}else if(isset($_POST['standardAddition'])){
+	$subject =$_POST['subject'];
+	$category=$_POST['category'];
+	$msg=$_POST['cDescription'];
+	$event = new Event;
+	 if ($event->standardAddition($subject,$category,$msg)) {
+		$event = null;
+	 	header("Location: /adminPanel/standardComplaints");
+	 	exit;
+
+	}
+}else if(isset($_POST['standardAdditionUpdate'])){
+	$id =$_POST['id'];
+	$subject =$_POST['updateSubject'];
+	$category=$_POST['updateCategory'];
+	$msg=$_POST['Description'];
+	$event = new Event;
+	 if ($event->standardAdditionUpdate($id,$subject,$category,$msg)) {
+		$event = null;
+	 	header("Location: /adminPanel/standardComplaints");
+	 	exit;
+
+	}
 }
+
+
 
 ?>

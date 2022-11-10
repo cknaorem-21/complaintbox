@@ -23,12 +23,12 @@ if (isset($_POST['register'])){
 			header("refresh:0; url=/login");
 		}
 		}else{
-			echo '<script>alert("There is some problem please try after some time! or contact us! ")</script>';
-			 header("refresh:0; url=/contact");
+			echo '<script>alert("Enter your correct mail or there is some problem please try after some time! or contact us! ")</script>';
+			 header("refresh:0; url=/register");
 		}
 
 	}
-		$event=null;
+$event=null;
 }else if(isset($_POST['login'])){
 	$email =$_POST['gmail'];
 	$password=md5($_POST['password']);

@@ -16,6 +16,7 @@
   });
   function verifyPassword() {  
   var pw = document.getElementById("pswd").value;  
+  var mobile = document.getElementById("mobile").value;  
   //check empty password field  
   if(pw == "") {  
      document.getElementById("message").innerHTML = "**Fill the password please!";  
@@ -32,20 +33,15 @@
   if(pw.length > 15) {  
      document.getElementById("message").innerHTML = "**Password length must not exceed 15 characters";  
      return false;  
-  } else {  
-     return true;  
-  }  
-}  
-  function phonenumber(inputtxt){
-    var phoneno = /^\d{10}$/;
-    if(inputtxt.value.match(phoneno))
-        return true;
-    else
-    {
-      document.getElementById("message").innerHTML = "**Enter Valid Mobile Number!" 
+  } 
+
+  if(mobile.length>10||mobile.length<10){
+     document.getElementById("message").innerHTML = "**Enter Valid Mobile Number!" 
        return false;
-    }
   }
+     return true;  
+  
+}  
 
 </script>
 <body>
@@ -64,7 +60,7 @@
        
         <div class="input-field col s6">
           <i class="material-icons prefix">account_circle</i>
-          <input required name="lastName" id="lastName" type="text" class="validate">
+          <input  name="lastName" id="lastName" type="text" class="validate">
           <label for="lastName">Last Name</label>
         </div>
       </div>
@@ -72,7 +68,7 @@
     <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">phone</i>
-          <input  name="mobile" required id="mobile" type="text" class="validate">
+          <input  name="mobile" required id="mobile" type="number" class="validate">
           <label for="mobile">Mobile </label>
         </div>
         <div data-position="top" data-delay="50" class=" tooltipped input-field col s6" data-tooltip="Enter Valid Email ">
@@ -97,7 +93,7 @@
           <option value="RESIDENT">RESIDENT</option>
            <option value="OTHERS">OTHERS</option>
         </select>
-         <label>Select your category</label>
+         <label>Category</label>
           </div>
       </div>
 
@@ -112,7 +108,7 @@
            <br>
       <br><br> <br>
       <br><br>
-  <button onclick="phonenumber(document.form1.mobile)" style="border-radius: 8px;" class="btn waves-effect waves-green" type="submit" name="register">Register 
+  <button style="border-radius: 8px;" class="btn waves-effect waves-green" type="submit" name="register">Register 
       <i  class="material-icons right">send</i>
     </button>
   </div>

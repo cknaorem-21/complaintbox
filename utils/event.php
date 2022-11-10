@@ -1,12 +1,38 @@
 <?php
 require_once "database.php";
 class Event {
+	
+
+	public function standardAdditionUpdate($id,$subject,$category,$msg){
+		$db = new database;
+		$db->mk_conn();
+		$sql="UPDATE standardcomplaints SET category='$category',subject='$subject',Description='$msg' WHERE id='$id'";
+		$result = $db->query($sql);
+		$db->close();
+		if ($result)
+			return true;
+		else
+			return false;
+	}
+	public function standardAddition($subject,$category,$msg){
+		$db = new database;
+		$db->mk_conn();
+	$sql = "INSERT into standardcomplaints(category,subject,Description) values('$subject','$category','$msg')";
+		$result = $db->query($sql);
+		$db->close();
+		if ($result) {
+			return true;
+		}
+	}
 	public function getavailUser($category){
 		$db = new database;
 		$db->mk_conn();
 		$sql="SELECT UID FROM users WHERE Category='$category' ORDER BY RAND() LIMIT 1";
 		$result = $db->query($sql);
+		$count=mysqli_num_rows($result);
 		$db->close();
+		if($count==0)
+			return null;
 		$row = $result->fetch_assoc();
 		return $row['UID'];
 	}
@@ -57,7 +83,15 @@ public function getCountActiveComplaint($userID){
 		$result = $db->query($sql);
 		$db->close();
 		return mysqli_num_rows($result);
-	}
+}
+public function getCount($status){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT * from complaints where status = '$status'";
+		$result = $db->query($sql);
+		$db->close();
+		return mysqli_num_rows($result);
+}
 public function getTotalCountComplaint($userID){
 		$db = new database;
 		$db->mk_conn();
@@ -74,10 +108,10 @@ public function assignWork($UID,$CID){
 		$result = $db->query($sql);
 		$sql1="UPDATE complaints SET Status='ACTIVE' WHERE CID='$CID'";
 		$result1 = $db->query($sql1);
-		$sql2="UPDATE users SET workStatus='YES' WHERE UID='$UID'";
-		$result2= $db->query($sql2);
+		// $sql2="UPDATE users SET workStatus='YES' WHERE UID='$UID'";
+		// $result2= $db->query($sql2);
 		$db->close();
-		if ($result&&$result1&&$result2)
+		if ($result&&$result1)
 			return true;
 		else
 			return false;
@@ -119,6 +153,23 @@ public function getUserData($email){
 		}
 		return $users;
 }
+public function getUserByID($UID){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT * from users WHERE UID='$UID'";
+		$result = $db->query($sql);
+		$db->close();
+		$cnt=mysqli_num_rows($result);
+		if($cnt==0)
+			return 0;
+		$users = array();
+		$row = $result->fetch_assoc();
+		while ($row) {
+			array_push($users, $row);
+			$row = $result->fetch_assoc();
+		}
+		return $users;
+}
 public function getAllCategory($userType){
 		$db = new database;
 		$db->mk_conn();
@@ -132,6 +183,29 @@ public function getAllCategory($userType){
 			$row = $result->fetch_assoc();
 		}
 		return $category;
+}
+public function getAssignedUserID($CID){
+	$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT UID from assignment where CID = '$CID'";
+		$result = $db->query($sql);
+		$count=mysqli_num_rows($result);
+		$db->close();
+		if($count==0)
+				return 0;
+		
+		$row = $result->fetch_assoc();
+		return $row['UID'];
+
+}
+public function getMobile($UID){
+		$db = new database;
+		$db->mk_conn();
+		$sql = "SELECT Mobile from users where UID = '$UID'";
+		$result = $db->query($sql);
+		$db->close();
+		$row = $result->fetch_assoc();
+		return $row['Mobile'];
 }
 public function getEmailByuserID($id) {
 		$db = new database;
@@ -241,6 +315,19 @@ public function userRegistrationbyGoogleAccout($Name,$gmail){
 		$db = new database;
 			$db->mk_conn();
 		$sql = "UPDATE users SET Password='$password' WHERE Email='$email'";
+			$result = $db->query($sql);
+			$db->close();
+			if($result)
+				return 1;
+			else{
+				return 0;
+			}
+	}
+	public function updateProfile($UID,$mobile,$category,$address){
+			$db = new database;
+			$db->mk_conn();
+		$sql = "UPDATE users SET Mobile='$mobile',Category='$category',
+		Address='$address' WHERE UID='$UID'";
 			$result = $db->query($sql);
 			$db->close();
 			if($result)
@@ -366,6 +453,18 @@ public function userRegistrationbyGoogleAccout($Name,$gmail){
 			return true;
 		}
 
+	}
+	public function deleteUser($UID){
+		$db = new database;
+		$db->mk_conn();
+		//$sql1="UPDATE complaints SET Status='PENDING' WHERE IN (SELECT CID FROM assignment WHERE UID='$UID')";
+	//	$result = $db->query($sql1);
+		$sql = "DELETE from users where UID = '$UID'";
+		$result = $db->query($sql);
+		$db->close();
+		if ($result) {
+			return true;
+		}
 	}
 
 	public function getDescription($id) {

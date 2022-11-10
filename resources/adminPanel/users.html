@@ -5,7 +5,7 @@
   <section>
     <div class="section">
       <fieldset>
-        <legend><h5>User List</h5></legend>
+        <legend><h5>USERS LIST</h5></legend>
         <br>
    <ul class="collection">
      {% for user in users %}
@@ -14,12 +14,34 @@
       <span class="title">{{user.Name}}</span>
       <p>{{user.Category}}<br>
         {{user.Email}}<br>
-        +91-{{user.Mobile}}<br>
-        {{user.Address}}<br>
-
+        {{user.Mobile}}<br>
       </p>
-      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+      <a  href="/adminPanel/userDeatils/?id={{user.UID}}" class="btn-floating btn-large red pulse secondary-content modal-trigger"><i class="material-icons">more</i></a>
+  <!--    <a href="#modal1{{user.UID}}" class="btn-floating btn-large red pulse secondary-content modal-trigger"><i class="material-icons">delete</i></a>
+     
     </li>
+  -->
+     <!-- Modal Structure -->
+
+  <div id="modal1{{user.UID}}" class="modal">
+ 
+    <div class="modal-content">
+        <p style="color:red">If you click on "agree" buttton,you will loss all the data regrading this user!
+      </p>
+         <fieldset><legend></legend>
+      <p>{{user.Name}}</p>
+      <p>{{user.Email}}</p>
+      <p>{{user.Mobile}}</p>
+      <p>{{user.Category}}</p>
+      <p>{{user.Address}}</p>
+    </fieldset>
+    </div>
+    <div class="modal-footer">
+      <a  href="/adminPanel/deleteUser/?id={{user.UID}}" class="waves-effect waves-light red btn" >Agree</a>
+      <a href="#!" class="modal-close btn waves-effect waves-green" >DisAgree</a>
+    </div>
+   
+  </div>
      {% endfor %}
    </ul>
      
@@ -28,6 +50,12 @@
   </section>
 <main>
 </div>
+<script type="text/javascript">
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
 
+</script>
 
           {%endblock%}
