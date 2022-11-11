@@ -31,10 +31,10 @@
             <td>{{complaint.status|e}}</td>
             <td class=" tooltipped" data-position="left" data-tooltip="View"><a href="/userPanel/complaintDetails/?id={{complaint.CID|e}}" class="btn-floating green darken-3 pulse"><i class="material-icons">remove_red_eye</i></a></td>
  {% if complaint.status == 'ACTIVE' or complaint.status =='PENDING'or complaint.status =='UNSEEN' %}
-             <td class=" tooltipped" data-position="left" data-tooltip="Update"><a  class="btn-floating  red lighten-1 pulse" onclick="return getUpdateConfirmation();" href="/userPanel/updateComplaint/?id={{complaint.CID|e}}"> <i class=" material-icons">edit</i></a></td>
+             <td class=" tooltipped" data-position="left" data-tooltip="Update"><a  class="btn-floating  red lighten-1" onclick="return getUpdateConfirmation();" href="/userPanel/updateComplaint/?id={{complaint.CID|e}}"> <i class=" material-icons">edit</i></a></td>
    {% endif %}
   {% if complaint.status == 'UNSEEN' %}
-               <td class=" tooltipped" data-position="left" data-tooltip="Delete"><a class="btn-floating  red accent-4 pulse" onclick="return getConfirmation();" href="/userPanel/deleteComplaint/?id={{complaint.CID|e}}" > <i class="material-icons">delete_forever</i></a></td>
+               <td class=" tooltipped" data-position="left" data-tooltip="Delete"><a class="btn-floating  red accent-4" onclick="return getConfirmation();" href="/userPanel/deleteComplaint/?id={{complaint.CID|e}}" > <i class="material-icons">delete_forever</i></a></td>
   {% endif %}
           </tr>
             {% endfor %}
